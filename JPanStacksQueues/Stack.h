@@ -1,68 +1,52 @@
 #pragma once
 #include <memory>
 #include "StackNode.h"
-using std::unique_ptr;
+using namespace std;
 
 template <typename T>
 class Stack {
 public:
+	shared_ptr<StackNode<T>> head;
 	Stack();
-	void Push(T value);
-	unique_ptr<StackNode<T>> head;
+	void Push(T);
 	T Pop();
 	T Peek();
 	bool IsEmpty();
-	int Count();
+	int Count;
 };
 
 template <typename T>
-Stack<T>::Stack() { 
+Stack<T>::Stack() {
 	head = nullptr;
+	Count = 0;
 }
 
 template <typename T>
 void Stack<T>::Push(T value) {
-	if (Count() == 0) {
-		head = make_unique<StackNode<T>>(value);
-		return;
-	}
-	auto temp = head.get;
-
-	while (temp->Next != nullptr) {
-		temp = temp->Next.get;
-	}
-	temp->Next = make_unique<StackNode<T>>(value);
+	head = make_unique<StackNode<T>>(value, head);
+	Count++;
 }
 
 template <typename T>
 T Stack<T>::Pop() {
-	if (Count() == 0) {
+	if (Count == 0) {
 		return NULL;
 	}
-	if (Count() == 1) {
-		auto temp = head.get;
-		head = nullptr;
-		return temp->item;
-	}
-	auto move = head.get;
-	while (move->Next->Next != nullptr) {
-		move = move->Next.get;
-	}
-	auto temp = move->Next;
-	move->Next = nullptr;
-	return temp->item;
+	T temp = head->Item;
+	head = head->Next;
+	Count--;
+	return temp;
 }
 
 template <typename T>
 T Stack<T>::Peek() {
-	if (Count() == 0) {
-		return NULL;
+	return head->Item;
+}
+
+template <typename T>
+bool Stack<T>::IsEmpty() {
+	if (Count == 0) {
+		return true;
 	}
-	auto move = head.get;
-	while (move->Next->Next != nullptr) {
-		move = move->Next.get;
-	}
-	auto temp = move->Next;
-	move->Next = nullptr;
-	return temp->item;
+	return false;
 }

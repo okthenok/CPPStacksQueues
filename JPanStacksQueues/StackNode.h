@@ -1,16 +1,23 @@
 #pragma once
 #include <memory>
-using std::unique_ptr;
+using std::shared_ptr;
 
 template <typename T>
 class StackNode {
 public:
-	StackNode(T Item);
-	unique_ptr<StackNode<T>> next;
-	T item;
+	StackNode(T);
+	StackNode(T, shared_ptr<StackNode<T>>);
+	shared_ptr<StackNode<T>> Next;
+	T Item;
 };
 
 template <typename T>
-StackNode<T>::StackNode(T Item) {
-	next = Next;
+StackNode<T>::StackNode(T item) {
+	Item = item;
+}
+
+template <typename T>
+StackNode<T>::StackNode(T item, shared_ptr<StackNode<T>> next) {
+	Item = item;
+	Next = next;
 }

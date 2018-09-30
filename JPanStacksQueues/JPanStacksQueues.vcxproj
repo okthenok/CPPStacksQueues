@@ -118,6 +118,8 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="QueueNode.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="StackNode.h" />
   </ItemGroup>
